@@ -15,8 +15,10 @@ public class Board {
 	public void advance() {
 		HashSet<Point> grid2 = new HashSet<>();
 		for (Point point : grid) {
-			if (0 < getNeighborCount(point)) {
+			int neighborCount = getNeighborCount(point);
+			if (3 == neighborCount) {
 				grid2.add(point);
+
 			}
 		}
 		grid = grid2;
@@ -26,7 +28,7 @@ public class Board {
 		int count = 0;
 		for (int x = -1; x <= 1; x++) {
 			for (int y = -1; y <= 1; y++) {
-				if (isAlive(point.x + x, point.y + y) && (x != 0 && y != 0)) {
+				if (isAlive(point.x + x, point.y + y) && !(x == 0 && y == 0)) {
 					count++;
 				}
 			}
