@@ -16,7 +16,7 @@ public class Board {
 		HashSet<Point> grid2 = new HashSet<>();
 		for (Point point : grid) {
 			int neighborCount = getNeighborCount(point);
-			if (3 == neighborCount) {
+			if ((3 == neighborCount) || (2 == neighborCount)) {
 				grid2.add(point);
 
 			}
