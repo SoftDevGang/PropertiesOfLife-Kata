@@ -14,14 +14,27 @@ public class Board {
 
 	public void advance() {
 		HashSet<Point> grid2 = new HashSet<>();
-		for (Point point : grid) {
+		for (Point point : getPossiblePoints()) {
 			int neighborCount = getNeighborCount(point);
-			if ((3 == neighborCount) || (2 == neighborCount)) {
+			if ((3 == neighborCount) || (2 == neighborCount && isAlive(point))) {
 				grid2.add(point);
 
 			}
 		}
 		grid = grid2;
+	}
+
+	private HashSet<Point> getPossiblePoints() {
+		HashSet<Point> grid2 = new HashSet<>();
+		for (Point point : grid) {
+			for (int x = -1; x <= 1; x++) {
+				for (int y = -1; y <= 1; y++) {
+					grid2.add(new Point(point.x + x, point.y + y));
+				}
+			}
+		}
+		return grid2;
+
 	}
 
 	private int getNeighborCount(Point point) {
@@ -37,7 +50,11 @@ public class Board {
 	}
 
 	private boolean isAlive(int x, int y) {
-		return grid.contains(new Point(x, y));
+		return isAlive(new Point(x, y));
+	}
+
+	private boolean isAlive(Point p) {
+		return grid.contains(p);
 	}
 
 	public int getLivingCellsCount() {

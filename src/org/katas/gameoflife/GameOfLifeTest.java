@@ -18,14 +18,22 @@ public class GameOfLifeTest {
 
 	@Test
 	public void testStillLife() {
-		verifyStaysTheSame(new StillLife(1));
+		verifyStaysTheSame(new StillLife(1), 1);
 	}
 
-	private void verifyStaysTheSame(BoardGenerator generator) {
+	@Test
+	public void testOscillator() {
+		verifyStaysTheSame(new Oscillator(), 2);
+	}
+
+	private void verifyStaysTheSame(BoardGenerator generator, int period) {
 		for (int i = 0; i < 100; i++) {
 			Board b = generator.createBoard();
 			Set<Point> points1 = b.getLivingCells();
-			b.advance();
+			for (int times = 0; times < period; times++) {
+
+				b.advance();
+			}
 			Set<Point> points2 = b.getLivingCells();
 			Assert.assertEquals(points1, points2);
 		}
