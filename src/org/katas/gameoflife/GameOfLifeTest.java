@@ -26,6 +26,22 @@ public class GameOfLifeTest {
 		verifyStaysTheSame(new Oscillator(), 2);
 	}
 
+	@Test
+	public void testDeath() {
+		verifyMassiveDeath(new Filled(80));
+	}
+
+	private void verifyMassiveDeath(Filled generator) {
+		for (int i = 0; i < 1000; i++) {
+			Board b = generator.createBoard();
+			int count1 = b.getLivingCellsCount();
+			b.advance();
+			int count2 = b.getLivingCellsCount();
+			System.out.println("count2=" + count2 + " < count1=" + count1);
+			Assert.assertTrue(count2 < (count1 * 0.1));
+		}
+	}
+
 	private void verifyStaysTheSame(BoardGenerator generator, int period) {
 		for (int i = 0; i < 100; i++) {
 			Board b = generator.createBoard();

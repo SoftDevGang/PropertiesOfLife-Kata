@@ -1,6 +1,5 @@
 package org.katas.gameoflife;
 
-import java.awt.Point;
 import java.util.Random;
 
 public class RandomLivingCells implements BoardGenerator {
@@ -22,7 +21,8 @@ public class RandomLivingCells implements BoardGenerator {
 		for (int i = 0; i < numberOfLivingCells; i++) {
 			int x = r.nextInt();
 			int y = r.nextInt();
-			b.place(new Point(x, y));
+
+			BoardGenerator.place(b, x, y, "*");
 			// check if filled
 		}
 		return b;
