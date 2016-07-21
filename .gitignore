@@ -1,6 +1,6 @@
 *.class
 /webPageImages
-/bin
+/classes
 *.received.*
 # Package Files #
 
