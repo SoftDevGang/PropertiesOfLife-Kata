@@ -1,6 +1,7 @@
 package org.katas.gameoflife;
 
 import java.awt.Point;
+import java.util.Iterator;
 
 public abstract class BoardGenerator {
 
@@ -20,6 +21,35 @@ public abstract class BoardGenerator {
             } else {
                 x++;
             }
+        }
+    }
+
+    public Iterable<Board> createBoards(int number) {
+        return new Iterable<Board>() {
+            @Override
+            public Iterator<Board> iterator() {
+                return new CreateBoards(number);
+            }
+        };
+    }
+
+    private class CreateBoards implements Iterator<Board> {
+        private final int maxBoards;
+        private int count = 0;
+
+        public CreateBoards(int number) {
+            this.maxBoards = number;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return count < maxBoards;
+        }
+
+        @Override
+        public Board next() {
+            count++;
+            return createBoard();
         }
     }
 
