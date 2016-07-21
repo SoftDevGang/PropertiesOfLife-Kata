@@ -1,18 +1,22 @@
 package org.katas.gameoflife;
 
-import java.util.Random;
+import com.pholser.junit.quickcheck.generator.GenerationStatus;
+import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 
 public class RandomLivingCells extends BoardGenerator {
 
-    private final Random random = new Random();
     private final int numberOfLivingCells;
+
+    public RandomLivingCells() {
+        this(1);
+    }
 
     public RandomLivingCells(int numberOfLivingCells) {
         this.numberOfLivingCells = numberOfLivingCells;
     }
 
     @Override
-    public Board createBoard() {
+    public Board generate(SourceOfRandomness random, GenerationStatus status) {
         Board board = new Board();
 
         for (int i = 0; i < numberOfLivingCells; i++) {

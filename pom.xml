@@ -50,10 +50,25 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
+        <!-- 
         <dependency>
             <groupId>net.java.quickcheck</groupId>
             <artifactId>quickcheck</artifactId>
             <version>0.6</version>
+            <scope>test</scope>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>com.pholser</groupId>
+            <artifactId>junit-quickcheck-core</artifactId>
+            <version>0.6</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- quickcheck nmisses logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.13</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

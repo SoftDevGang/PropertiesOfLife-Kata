@@ -1,23 +1,22 @@
 package org.katas.gameoflife;
 
-import java.util.Random;
+import com.pholser.junit.quickcheck.generator.GenerationStatus;
+import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 
 public class Oscillator extends BoardGenerator {
 
-    private final Random random = new Random();
-
     @Override
-    public Board createBoard() {
+    public Board generate(SourceOfRandomness random, GenerationStatus status) {
         Board board = new Board();
 
         int x = random.nextInt(Integer.MAX_VALUE - 3);
         int y = random.nextInt(Integer.MAX_VALUE - 3);
-        place(board, x, y, getRandomOscillator());
+        place(board, x, y, getRandomOscillator(random));
 
         return board;
     }
 
-    private String getRandomOscillator() {
+    private String getRandomOscillator(SourceOfRandomness random) {
         String blinker = " * \n * \n * \n";
         String[] oscillators = { blinker };
 

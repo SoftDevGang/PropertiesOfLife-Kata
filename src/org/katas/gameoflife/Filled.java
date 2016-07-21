@@ -1,18 +1,22 @@
 package org.katas.gameoflife;
 
-import java.util.Random;
+import com.pholser.junit.quickcheck.generator.GenerationStatus;
+import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 
 public class Filled extends BoardGenerator {
 
-    private final Random random = new Random();
     private final int percentage;
+
+    public Filled() {
+        this(80);
+    }
 
     public Filled(int percentage) {
         this.percentage = percentage;
     }
 
     @Override
-    public Board createBoard() {
+    public Board generate(SourceOfRandomness random, GenerationStatus status) {
         Board board = new Board();
 
         for (int x = 0; x < 100; x++) {

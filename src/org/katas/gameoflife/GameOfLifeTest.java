@@ -7,52 +7,32 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 import org.junit.Assert;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.FromDataPoints;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-@RunWith(Theories.class)
+import com.pholser.junit.quickcheck.From;
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
+
+@RunWith(JUnitQuickcheck.class)
 public class GameOfLifeTest {
 
-    @DataPoints("SingleRandomLivingCell")
-    public static Iterable<Board> randomLivingCells() {
-        return new RandomLivingCells(1).createBoards(100);
-    }
-
-    @DataPoints("StillLife")
-    public static Iterable<Board> stillLife() {
-        return new StillLife().createBoards(100);
-    }
-
-    @DataPoints("OscillatorPhase2")
-    public static Iterable<Board> oscillator() {
-        return new Oscillator().createBoards(100);
-    }
-
-    @DataPoints("Filled80%")
-    public static Iterable<Board> filled80() {
-        return new Filled(80).createBoards(100);
-    }
-
-    @Theory
-    public void testSingleCell(@FromDataPoints("SingleRandomLivingCell") Board board) {
+    @Property
+    public void testSingleCell(@From(RandomLivingCells.class) Board board) {
         verifyBoard(board, 1, this::goesToEmpty);
     }
 
-    @Theory
-    public void testStillLife(@FromDataPoints("StillLife") Board board) {
+    @Property
+    public void testStillLife(@From(StillLife.class) Board board) {
         verifyBoard(board, 1, this::staysTheSame);
     }
 
-    @Theory
-    public void testOscillator(@FromDataPoints("OscillatorPhase2") Board board) {
+    @Property
+    public void testOscillator(@From(Oscillator.class) Board board) {
         verifyBoard(board, 2, this::staysTheSame);
     }
 
-    @Theory
-    public void testStatisticalDeath(@FromDataPoints("Filled80%") Board board) {
+    @Property
+    public void testStatisticalDeath(@From(Filled.class) Board board) {
         verifyBoard(board, 1, this::massiveDeath);
     }
 
