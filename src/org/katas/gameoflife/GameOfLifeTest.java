@@ -38,31 +38,29 @@ public class GameOfLifeTest {
 
     @Theory
     public void testSingleCell(@FromDataPoints("SingleRandomLivingCell") Board board) {
-        verifyGoesToEmpty(board);
+        verifyBoard(board, 1, this::goesToEmpty);
     }
 
     @Theory
     public void testStillLife(@FromDataPoints("StillLife") Board board) {
-        verifyStaysTheSame(board, 1);
+        verifyBoard(board, 1, this::staysTheSame);
     }
 
     @Theory
     public void testOscillator(@FromDataPoints("OscillatorPhase2") Board board) {
-        verifyStaysTheSame(board, 2);
+        verifyBoard(board, 2, this::staysTheSame);
     }
 
     @Theory
     public void testStatisticalDeath(@FromDataPoints("Filled80%") Board board) {
-        verifyMassiveDeath(board, 10);
+        verifyBoard(board, 1, this::massiveDeath);
     }
 
-    private void verifyMassiveDeath(Board board, int survival) {
-        verifyBoard(board, 1, (cellsBefore, cellsAfter) -> {
-            int countLivingCellsBefore = cellsBefore.size();
-            int countLivingCells = cellsAfter.size();
-            // System.out.println("countLivingCells=" + countLivingCells + " < countLivingCellsBefore=" + countLivingCellsBefore);
-            Assert.assertTrue(countLivingCells < (countLivingCellsBefore * 1.0 / 100 * survival));
-        });
+    private void massiveDeath(Set<Point> cellsBefore, Set<Point> cellsAfter) {
+        int countLivingCellsBefore = cellsBefore.size();
+        int countLivingCells = cellsAfter.size();
+        // System.out.println("countLivingCells=" + countLivingCells + " < countLivingCellsBefore=" + countLivingCellsBefore);
+        Assert.assertTrue(countLivingCells < (countLivingCellsBefore * 0.1));
     }
 
     private void verifyBoard(Board board, int period, BiConsumer<Set<Point>, Set<Point>> assertion) {
@@ -76,12 +74,12 @@ public class GameOfLifeTest {
         assertion.accept(livingCellsBefore, livingCells);
     }
 
-    private void verifyStaysTheSame(Board board, int period) {
-        verifyBoard(board, period, (cellsBefore, cellsAfter) -> assertEquals(cellsBefore, cellsAfter));
+    private void staysTheSame(Set<Point> cellsBefore, Set<Point> cellsAfter) {
+        assertEquals(cellsBefore, cellsAfter);
     }
 
-    private void verifyGoesToEmpty(Board board) {
-        verifyBoard(board, 1, (cellsBefore, cellsAfter) -> assertEquals(0, cellsAfter.size()));
+    private void goesToEmpty(@SuppressWarnings("unused") Set<Point> cellsBefore, Set<Point> cellsAfter) {
+        assertEquals(0, cellsAfter.size());
     }
 
 }
