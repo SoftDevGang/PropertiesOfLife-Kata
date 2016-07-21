@@ -2,27 +2,27 @@ package org.katas.gameoflife;
 
 import java.util.Random;
 
-public class Filled implements BoardGenerator {
+public class Filled extends BoardGenerator {
 
-	private int percentage;
+    private final Random random = new Random();
+    private final int percentage;
 
-	public Filled(int percentage) {
-		this.percentage = percentage;
-	}
+    public Filled(int percentage) {
+        this.percentage = percentage;
+    }
 
-	@Override
-	public Board createBoard() {
-		Random r = new Random();
-		Board b = new Board();
+    @Override
+    public Board createBoard() {
+        Board board = new Board();
 
-		for (int x = 0; x < 100; x++) {
-			for (int y = 0; y < 100; y++) {
-				if (r.nextInt(100) <= percentage) {
-					BoardGenerator.place(b, x, y, "*");
-				}
-			}
-		}
-		return b;
-	}
+        for (int x = 0; x < 100; x++) {
+            for (int y = 0; y < 100; y++) {
+                if (random.nextInt(100) <= percentage) {
+                    place(board, x, y, "*");
+                }
+            }
+        }
+        return board;
+    }
 
 }

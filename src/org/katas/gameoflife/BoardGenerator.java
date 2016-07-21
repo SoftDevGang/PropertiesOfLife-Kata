@@ -2,24 +2,25 @@ package org.katas.gameoflife;
 
 import java.awt.Point;
 
-public interface BoardGenerator {
+public abstract class BoardGenerator {
 
-	Board createBoard();
+    public abstract Board createBoard();
 
-	static void place(Board b, int x, int y, String string) {
-	
-		int originalX = x;
-		for (Character c : string.toCharArray()) {
-			if (c == '*') {
-				b.place(new Point(x, y));
-				x++;
-			} else if (c == '\n') {
-				y++;
-				x = originalX;
-			} else {
-				x++;
-			}
-		}
-	}
+    protected void place(Board board, int startX, int startY, String pattern) {
+        int x = startX;
+        int y = startY;
+
+        for (char c : pattern.toCharArray()) {
+            if (c == '*') {
+                board.place(new Point(x, y));
+                x++;
+            } else if (c == '\n') {
+                y++;
+                x = startX;
+            } else {
+                x++;
+            }
+        }
+    }
 
 }

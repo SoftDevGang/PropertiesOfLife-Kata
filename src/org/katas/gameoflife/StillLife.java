@@ -2,32 +2,27 @@ package org.katas.gameoflife;
 
 import java.util.Random;
 
-public class StillLife implements BoardGenerator {
+public class StillLife extends BoardGenerator {
 
-	private int numberOfStillLifes;
+    private final Random random = new Random();
 
-	public StillLife(int numberOfStillLifes) {
-		this.numberOfStillLifes = numberOfStillLifes;
-	}
+    @Override
+    public Board createBoard() {
+        Board board = new Board();
 
-	@Override
-	public Board createBoard() {
+        int x = random.nextInt(Integer.MAX_VALUE - 3);
+        int y = random.nextInt(Integer.MAX_VALUE - 3);
+        place(board, x, y, getRandomStillLife());
 
-		Board b = new Board();
-		Random r = new Random();
-		int x = r.nextInt(Integer.MAX_VALUE - 3);
-		int y = r.nextInt(Integer.MAX_VALUE - 3);
+        return board;
+    }
 
-		BoardGenerator.place(b, x, y, getRandomStillLife(r));
-		return b;
-	}
+    private String getRandomStillLife() {
+        String block = "**\n**\n";
+        String beehive = " ** \n*  *\n ** ";
+        String[] stillLifes = { block, beehive };
 
-	private String getRandomStillLife(Random r) {
-		String block = "**\n**\n";
-		String beehive = " ** \n*  *\n ** ";
-		String[] stillLifes = { block, beehive };
-		String stillLife = stillLifes[r.nextInt(stillLifes.length)];
-		return stillLife;
-	}
+        return stillLifes[random.nextInt(stillLifes.length)];
+    }
 
 }

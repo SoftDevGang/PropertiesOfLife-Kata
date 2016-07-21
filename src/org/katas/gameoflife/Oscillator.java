@@ -2,24 +2,26 @@ package org.katas.gameoflife;
 
 import java.util.Random;
 
-public class Oscillator implements BoardGenerator {
+public class Oscillator extends BoardGenerator {
 
-	@Override
-	public Board createBoard() {
-		Board b = new Board();
-		Random r = new Random();
-		int x = r.nextInt(Integer.MAX_VALUE - 3);
-		int y = r.nextInt(Integer.MAX_VALUE - 3);
+    private final Random random = new Random();
 
-		BoardGenerator.place(b, x, y, getRandomStillLife(r));
-		return b;
-	}
+    @Override
+    public Board createBoard() {
+        Board board = new Board();
 
-	private String getRandomStillLife(Random r) {
-		String blinker = " * \n * \n * \n";
-		String[] stillLifes = { blinker };
-		String stillLife = stillLifes[r.nextInt(stillLifes.length)];
-		return stillLife;
-	}
+        int x = random.nextInt(Integer.MAX_VALUE - 3);
+        int y = random.nextInt(Integer.MAX_VALUE - 3);
+        place(board, x, y, getRandomOscillator());
+
+        return board;
+    }
+
+    private String getRandomOscillator() {
+        String blinker = " * \n * \n * \n";
+        String[] oscillators = { blinker };
+
+        return oscillators[random.nextInt(oscillators.length)];
+    }
 
 }
