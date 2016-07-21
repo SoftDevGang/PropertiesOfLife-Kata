@@ -1,13 +1,12 @@
 package org.katas.gameoflife;
 
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.Point;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 import org.junit.Assert;
-import org.junit.Assume;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.FromDataPoints;
 import org.junit.experimental.theories.Theories;
@@ -58,16 +57,15 @@ public class GameOfLifeTest {
     }
 
     private void verifyMassiveDeath(Board board, int survival) {
-        int countLivingCellsBefore = board.getLivingCellsCount();
-
-        board.advance();
-
-        int countLivingCells = board.getLivingCellsCount();
-        // System.out.println("count2=" + count2 + " < count1=" + count1);
-        Assert.assertTrue(countLivingCells < (countLivingCellsBefore * 1.0 / 100 * survival));
+        verifyBoard(board, 1, (cellsBefore, cellsAfter) -> {
+            int countLivingCellsBefore = cellsBefore.size();
+            int countLivingCells = cellsAfter.size();
+            // System.out.println("countLivingCells=" + countLivingCells + " < countLivingCellsBefore=" + countLivingCellsBefore);
+            Assert.assertTrue(countLivingCells < (countLivingCellsBefore * 1.0 / 100 * survival));
+        });
     }
 
-    private void verifyStaysTheSame(Board board, int period) {
+    private void verifyBoard(Board board, int period, BiConsumer<Set<Point>, Set<Point>> assertion) {
         Set<Point> livingCellsBefore = board.getLivingCells();
 
         for (int times = 0; times < period; times++) {
@@ -75,16 +73,15 @@ public class GameOfLifeTest {
         }
 
         Set<Point> livingCells = board.getLivingCells();
-        assertEquals(livingCellsBefore, livingCells);
+        assertion.accept(livingCellsBefore, livingCells);
+    }
+
+    private void verifyStaysTheSame(Board board, int period) {
+        verifyBoard(board, period, (cellsBefore, cellsAfter) -> assertEquals(cellsBefore, cellsAfter));
     }
 
     private void verifyGoesToEmpty(Board board) {
-        assertEquals(1, board.getLivingCellsCount());
-        Assume.assumeThat(board.getLivingCellsCount(), is(1));
-
-        board.advance();
-
-        assertEquals(0, board.getLivingCellsCount());
+        verifyBoard(board, 1, (cellsBefore, cellsAfter) -> assertEquals(0, cellsAfter.size()));
     }
 
 }
