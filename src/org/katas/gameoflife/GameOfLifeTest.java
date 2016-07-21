@@ -16,7 +16,7 @@ import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 @RunWith(JUnitQuickcheck.class)
 public class GameOfLifeTest {
 
-    @Property
+    @Property(trials = 25000)
     public void testSingleCell(@From(RandomLivingCells.class) Board board) {
         verifyBoard(board, 1, this::goesToEmpty);
     }
