@@ -18,7 +18,7 @@ public class GameOfLifeTest {
 
     @DataPoints("RandomLivingCells")
     public static Iterable<Board> randomLivingCells() {
-        return new RandomLivingCells(1).createBoards(100);
+        return new RandomLivingCells(1).createBoards(25000);
     }
 
     @DataPoints("StillLife")
