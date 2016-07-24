@@ -2,10 +2,11 @@ package org.katas.gameoflife;
 
 import java.awt.Point;
 import java.util.Iterator;
+import java.util.Random;
 
 public abstract class BoardGenerator {
 
-    public abstract Board createBoard();
+    public abstract Board generate(Random random);
 
     protected void place(Board board, int startX, int startY, String pattern) {
         int x = startX;
@@ -28,16 +29,18 @@ public abstract class BoardGenerator {
         return new Iterable<Board>() {
             @Override
             public Iterator<Board> iterator() {
-                return new CreateBoards(number);
+                return new CreateBoards(new Random(), number);
             }
         };
     }
 
     private class CreateBoards implements Iterator<Board> {
+        private final Random random;
         private final int maxBoards;
         private int count = 0;
 
-        public CreateBoards(int number) {
+        public CreateBoards(Random random, int number) {
+            this.random = random;
             this.maxBoards = number;
         }
 
@@ -49,7 +52,7 @@ public abstract class BoardGenerator {
         @Override
         public Board next() {
             count++;
-            return createBoard();
+            return generate(random);
         }
     }
 

@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class GameOfLifeTest {
 
-    @DataPoints("SingleRandomLivingCell")
+    @DataPoints("RandomLivingCells")
     public static Iterable<Board> randomLivingCells() {
         return new RandomLivingCells(1).createBoards(100);
     }
@@ -26,18 +26,18 @@ public class GameOfLifeTest {
         return new StillLife().createBoards(100);
     }
 
-    @DataPoints("OscillatorPhase2")
+    @DataPoints("Oscillator")
     public static Iterable<Board> oscillator() {
         return new Oscillator().createBoards(100);
     }
 
-    @DataPoints("Filled80%")
+    @DataPoints("Filled")
     public static Iterable<Board> filled80() {
         return new Filled(80).createBoards(100);
     }
 
     @Theory
-    public void testSingleCell(@FromDataPoints("SingleRandomLivingCell") Board board) {
+    public void testSingleCell(@FromDataPoints("RandomLivingCells") Board board) {
         verifyBoard(board, 1, this::goesToEmpty);
     }
 
@@ -47,12 +47,12 @@ public class GameOfLifeTest {
     }
 
     @Theory
-    public void testOscillator(@FromDataPoints("OscillatorPhase2") Board board) {
+    public void testOscillator(@FromDataPoints("Oscillator") Board board) {
         verifyBoard(board, 2, this::staysTheSame);
     }
 
     @Theory
-    public void testStatisticalDeath(@FromDataPoints("Filled80%") Board board) {
+    public void testStatisticalDeath(@FromDataPoints("Filled") Board board) {
         verifyBoard(board, 1, this::massiveDeath);
     }
 

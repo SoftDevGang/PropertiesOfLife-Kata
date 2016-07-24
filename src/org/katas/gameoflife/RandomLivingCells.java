@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class RandomLivingCells extends BoardGenerator {
 
-    private final Random random = new Random();
     private final int numberOfLivingCells;
 
     public RandomLivingCells(int numberOfLivingCells) {
@@ -12,7 +11,7 @@ public class RandomLivingCells extends BoardGenerator {
     }
 
     @Override
-    public Board createBoard() {
+    public Board generate(Random random) {
         Board board = new Board();
 
         for (int i = 0; i < numberOfLivingCells; i++) {
