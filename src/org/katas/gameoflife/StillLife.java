@@ -1,26 +1,31 @@
 package org.katas.gameoflife;
 
-import java.util.Random;
+import net.java.quickcheck.Generator;
+import net.java.quickcheck.generator.PrimitiveGenerators;
 
 public class StillLife extends BoardGenerator {
 
+    private final Generator<Integer> xCoordinates = PrimitiveGenerators.integers(Integer.MIN_VALUE, Integer.MAX_VALUE - 3);
+    private final Generator<Integer> yCoordinates = PrimitiveGenerators.integers(Integer.MIN_VALUE, Integer.MAX_VALUE - 3);
+    private final Generator<String> randomStillLifes = createRandomStillLifes();
+
     @Override
-    public Board generate(Random random) {
+    public Board next() {
         Board board = new Board();
 
-        int x = random.nextInt(Integer.MAX_VALUE - 3);
-        int y = random.nextInt(Integer.MAX_VALUE - 3);
-        place(board, x, y, getRandomStillLife(random));
+        int x = xCoordinates.next();
+        int y = yCoordinates.next();
+        place(board, x, y, randomStillLifes.next());
 
         return board;
     }
 
-    private String getRandomStillLife(Random random) {
+    private Generator<String> createRandomStillLifes() {
         String block = "**\n**\n";
         String beehive = " ** \n*  *\n ** ";
         String[] stillLifes = { block, beehive };
 
-        return stillLifes[random.nextInt(stillLifes.length)];
+        return PrimitiveGenerators.fixedValues(stillLifes);
     }
 
 }

@@ -1,25 +1,30 @@
 package org.katas.gameoflife;
 
-import java.util.Random;
+import net.java.quickcheck.Generator;
+import net.java.quickcheck.generator.PrimitiveGenerators;
 
 public class Oscillator extends BoardGenerator {
 
+    private final Generator<Integer> xCoordinates = PrimitiveGenerators.integers(Integer.MIN_VALUE, Integer.MAX_VALUE - 3);
+    private final Generator<Integer> yCoordinates = PrimitiveGenerators.integers(Integer.MIN_VALUE, Integer.MAX_VALUE - 3);
+    private final Generator<String> randomOscillators = creatrRandomOscillators();
+
     @Override
-    public Board generate(Random random) {
+    public Board next() {
         Board board = new Board();
 
-        int x = random.nextInt(Integer.MAX_VALUE - 3);
-        int y = random.nextInt(Integer.MAX_VALUE - 3);
-        place(board, x, y, getRandomOscillator(random));
+        int x = xCoordinates.next();
+        int y = yCoordinates.next();
+        place(board, x, y, randomOscillators.next());
 
         return board;
     }
 
-    private String getRandomOscillator(Random random) {
+    private Generator<String> creatrRandomOscillators() {
         String blinker = " * \n * \n * \n";
         String[] oscillators = { blinker };
 
-        return oscillators[random.nextInt(oscillators.length)];
+        return PrimitiveGenerators.fixedValues(oscillators);
     }
 
 }

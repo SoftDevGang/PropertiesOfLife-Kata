@@ -1,8 +1,12 @@
 package org.katas.gameoflife;
 
-import java.util.Random;
+import net.java.quickcheck.Generator;
+import net.java.quickcheck.generator.PrimitiveGenerators;
 
 public class RandomLivingCells extends BoardGenerator {
+
+    private final Generator<Integer> xCoordinates = PrimitiveGenerators.integers();
+    private final Generator<Integer> yCoordinates = PrimitiveGenerators.integers();
 
     private final int numberOfLivingCells;
 
@@ -11,12 +15,12 @@ public class RandomLivingCells extends BoardGenerator {
     }
 
     @Override
-    public Board generate(Random random) {
+    public Board next() {
         Board board = new Board();
 
         for (int i = 0; i < numberOfLivingCells; i++) {
-            int x = random.nextInt();
-            int y = random.nextInt();
+            int x = xCoordinates.next();
+            int y = yCoordinates.next();
             // TODO check if filled
 
             place(board, x, y, "*");
