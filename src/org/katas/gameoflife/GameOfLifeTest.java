@@ -17,7 +17,7 @@ public class GameOfLifeTest {
     @Test
     public void testSingleCell() {
         BoardGenerator generator = new RandomLivingCells(1);
-        for (int run = 0; run < 100; run++) {
+        for (int run = 0; run < 25000; run++) {
             Board board = generator.generate(random);
             verifyBoard(board, 1, this::goesToEmpty);
         }
