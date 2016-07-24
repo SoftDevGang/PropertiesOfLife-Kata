@@ -1,10 +1,11 @@
 package org.katas.gameoflife;
 
 import java.awt.Point;
+import java.util.Random;
 
 public abstract class BoardGenerator {
 
-    public abstract Board createBoard();
+    public abstract Board generate(Random random);
 
     protected void place(Board board, int startX, int startY, String pattern) {
         int x = startX;
